@@ -27,9 +27,24 @@ const Home = () => {
     }
     return [screenScale, screenPosition, rotation];
   };
+  // Adjusts the plane size and position for different screen sizes
+  const adjustPlaneForScreenSize = () => {
+    let screenScale, screenPosition;
 
+    if (window.innerWidth < 768) {
+      screenScale = [1.5, 1.5, 1.5];
+      screenPosition = [0, -1.5, 0];
+    } else {
+      screenScale = [3, 3, 3];
+      screenPosition = [0, -4, -4];
+    }
+    return [screenScale, screenPosition];
+  };
+
+  // Calls the functions to adjust the island and plane for different screen sizes
   const [islandScale, islandPosition, islandRotation] =
     adjustIslandForScreenSize();
+  const [planeScale, planePosition] = adjustPlaneForScreenSize();
 
   return (
     <section className="w-full h-screen relative">
@@ -65,7 +80,12 @@ const Home = () => {
           />
 
           {/* Plane  */}
-          <Plane />
+          <Plane
+            isRotating={isRotating}
+            planeScale={planeScale}
+            planePosition={planePosition}
+            rotation={[0, 20, 0]}
+          />
         </Suspense>
       </Canvas>
     </section>
